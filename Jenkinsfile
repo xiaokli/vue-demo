@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Dependencies Install') {
             steps {
-                sh 'docker run --rm -v "$(pwd):/app" -w /app  node:18.17.0  sh -c "chmod 755 . && npm install"'
+                sh 'docker run --rm -v "$(pwd):/app" -w /app  node:18.17.0  sh -c "npm install && chmod 777 -R node_modules"'
             }
         }
 
