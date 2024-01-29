@@ -28,8 +28,5 @@ pipeline {
                 sh 'echo "skipping ......."'
             }
         }
-        post() {
-            
-        }
     }
 }
