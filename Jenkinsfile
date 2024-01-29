@@ -24,7 +24,7 @@ pipeline {
     }
     post {
         always {
-            sh 'docker run --rm -v "$(pwd):/app" -w /app  node:18.17.0  git clean -xdf'
+            sh 'docker run --rm -v "$(pwd):/app" -w /app  node:18.17.0 sh -c "git config --global --add safe.directory /app &&  git clean -xdf"'
         }
     }
 }
