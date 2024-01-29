@@ -3,13 +3,13 @@ pipeline {
     stages {
         stage('Dependencies Install') {
             steps {
-                sh 'docker run --rm -v "$(pwd):/app" -w /app  node:18.17.0  sh -c "npm install && chmod 777 -R node_modules"'
+                sh 'docker run --rm -v "$(pwd):/app" -w /app  node:18.17.0  sh -c "useradd -m jenkins && su jenkins && npm install"'
             }
         }
 
         stage('Build-beta') {
             steps {
-                sh 'docker run --rm -v "$(pwd):/app" -w /app  node:18.17.0  npm run build-only'
+                sh 'docker run --rm -v "$(pwd):/app" -w /app  node:18.17.0  sh -c "useradd -m jenkins && su jenkins && npm run build-only"'
                 sh 'tar -czf web-beta.tar.gz dist'
                 archiveArtifacts 'web-beta.tar.gz'
             }
@@ -27,6 +27,9 @@ pipeline {
                 input(message: 'Do you want to proceed?', ok: 'Proceed')
                 sh 'echo "skipping ......."'
             }
+        }
+        post() {
+            
         }
     }
 }
