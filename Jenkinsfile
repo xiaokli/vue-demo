@@ -1,18 +1,31 @@
 pipeline {
     agent any
-
     stages {
-        stage("prepare")  {
+        stage('Dependencies Install') {
             steps {
-                sh 'docker run --rm -v "${PWD}:/app" -w "/app" node:21.4.0 npm install'
+                sh 'docker run --rm -v "$(pwd):/app" -w /app  node:18.17.0  sh -c "chmod 755 . && npm install"'
             }
         }
 
-        stage("build") {
+        stage('Build-beta') {
             steps {
-                sh 'docker run --rm -v "${PWD}:/app" -w "/app" node:21.4.0 npm run build'
-                archiveArtifacts artifacts: 'dist', fingerprint: true
+                sh 'docker run --rm -v "$(pwd):/app" -w /app  node:18.17.0  npm run build-only'
+                sh 'tar -czf web-beta-${env.BUILD_NUMBER}.tar.gz dist'
+                archiveArtifacts 'web-beta-${buildNumber}.tar.gz'
+            }
+        }
 
+        stage('Deploy - beta') {
+            steps {
+                input(message: 'Do you want to proceed?', ok: 'Proceed')
+                sh 'echo "skipping ......."'
+            }
+        }
+
+        stage('Deploy - prod') {
+            steps {
+                input(message: 'Do you want to proceed?', ok: 'Proceed')
+                sh 'echo "skipping ......."'
             }
         }
     }
