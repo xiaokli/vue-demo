@@ -10,8 +10,8 @@ pipeline {
         stage('Build-beta') {
             steps {
                 sh 'docker run --rm -v "$(pwd):/app" -w /app  node:18.17.0  npm run build-only'
-                sh 'tar -czf web-beta-${env.BUILD_NUMBER}.tar.gz dist'
-                archiveArtifacts 'web-beta-${buildNumber}.tar.gz'
+                sh 'tar -czf web-beta.tar.gz dist'
+                archiveArtifacts 'web-beta.tar.gz'
             }
         }
 
