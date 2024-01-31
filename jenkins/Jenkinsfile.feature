@@ -7,18 +7,15 @@ pipeline {
             }
         }
 
-        stage('Build-beta') {
+        stage('Run Link') {
             steps {
-                sh 'docker run --rm -v "$(pwd):/app" -w /app  node:18.17.0  npm run build-only'
-                sh 'tar -czf web-beta.tar.gz dist'
-                archiveArtifacts 'web-beta.tar.gz'
+                sh 'echo "lint..."'
             }
         }
 
-        stage('Deploy - beta') {
+        stage('Deploy - regression') {
             steps {
-                input(message: 'Do you want to proceed?', ok: 'Proceed')
-                sh 'echo "skipping ......."'
+                sh 'echo "lint..."'
             }
         }
     }
