@@ -34,7 +34,7 @@ pipeline {
     when {
         expression {
             // Define conditions based on branch name
-            return env.BRANCH_NAME ==~ 'dev\/beta-.*'
+            return env.BRANCH_NAME =~ /^dev\/beta-.*/
         }
     }
 
