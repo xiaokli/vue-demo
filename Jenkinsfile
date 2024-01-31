@@ -28,39 +28,28 @@ pipeline {
                 }
             }
         }
-    }
 
-    // Define additional stages based on branch name
-    when {
-        expression {
-            // Define conditions based on branch name
-            return env.BRANCH_NAME =~ /^dev\/beta-.*/
-        }
-    }
-
-    stages {
-        stage('Additional Stage for Dev/Beta-* Branch') {
+          stage('Additional Stage for main Branch') {
             steps {
                 script {
-                    echo 'Running additional steps for dev/beta-* branch...'
-                    // Your additional steps for the master branch go here
+                     if (env.BRANCH_NAME == 'main') {
+                        echo 'Running additional steps for main branches...'
+                        // Your additional steps go here
+                    } else {
+                        echo 'No additional steps for this branch...'
+                    }
                 }
             }
         }
-    }
-
-    when {
-        expression {
-            return env.BRANCH_NAME == 'main'
-        }
-    }
-
-    stages {
-        stage('Additional Stage for Main Branch') {
+        stage('Additional Stage for dev/beta Branch') {
             steps {
                 script {
-                    echo 'Running additional steps for Main branch...'
-                    // Your additional steps for the feature branch go here
+                     if (env.BRANCH_NAME =~ /^dev\/beta-.*/) {
+                        echo 'Running additional steps for dev/beta branches...'
+                        // Your additional steps go here
+                    } else {
+                        echo 'No additional steps for this branch...'
+                    }
                 }
             }
         }
